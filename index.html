@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <script type="module" src="/scripts/main.js"></script>
+    <link rel="stylesheet" href="/styles/style.css" />
+  </head>
+  <body>
+    <canvas></canvas>
+
+    <div class="controls">
+      <div class="colors">
+        Color:
+        <label class="color-checkbox selected" style="--color: #333">
+          <input
+            class="visually-hidden"
+            type="radio"
+            name="color"
+            value="#333"
+          />
+          <span class="visually-hidden">Black</span>
+        </label>
+        <label class="color-checkbox" style="--color: #fff">
+          <input
+            class="visually-hidden"
+            type="radio"
+            name="color"
+            value="#fff"
+          />
+          <span class="visually-hidden">White</span>
+        </label>
+        <label class="color-checkbox" style="--color: #ccc">
+          <input
+            class="visually-hidden"
+            type="radio"
+            name="color"
+            value="#ccc"
+          />
+          <span class="visually-hidden">Gray</span>
+        </label>
+        <label class="color-checkbox" style="--color: #f00">
+          <input
+            class="visually-hidden"
+            type="radio"
+            name="color"
+            value="#f00"
+          />
+          <span class="visually-hidden">Red</span>
+        </label>
+        <label class="color-checkbox" style="--color: #00f">
+          <input
+            class="visually-hidden"
+            type="radio"
+            name="color"
+            value="#00f"
+          />
+          <span class="visually-hidden">Blue</span>
+        </label>
+        <label class="color-checkbox" style="--color: #f0f">
+          <input
+            class="visually-hidden"
+            type="radio"
+            name="color"
+            value="#f0f"
+          />
+          <span class="visually-hidden">Green</span>
+        </label>
+      </div>
+
+      <label class="size-label">
+        Size
+        <input
+          type="range"
+          min="1"
+          max="100"
+          step="0.1"
+          class="size-range"
+          value="10"
+        />
+      </label>
+
+      <button class="js-undo">Undo</button>
+    </div>
+  </body>
+</html>
