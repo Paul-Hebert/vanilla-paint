@@ -41,10 +41,8 @@ canvas.addEventListener("pointerdown", (e) => {
 
   actionIndex = actions.length - 1;
 
-  console.log({ actionIndex, actions });
-
   updateRedoButton();
-  drawCanvas({ canvas, context, actions });
+  drawCanvas({ canvas, context, actions, actionIndex });
 });
 
 canvas.addEventListener("pointermove", (e) => {
@@ -80,7 +78,6 @@ undoButton.addEventListener("click", () => {
   }
   drawCanvas({ canvas, context, actions, actionIndex });
   updateRedoButton();
-  console.log({ actionIndex, actions });
 });
 
 redoButton.addEventListener("click", () => {
@@ -91,7 +88,6 @@ redoButton.addEventListener("click", () => {
   }
   drawCanvas({ canvas, context, actions, actionIndex });
   updateRedoButton();
-  console.log({ actionIndex, actions });
 });
 
 function updateRedoButton() {
