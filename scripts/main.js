@@ -2,10 +2,15 @@ import { drawCanvas } from "./draw-canvas.js";
 import { initCanvas } from "./init-canvas.js";
 import { mousePositionOnCanvas } from "./mouse-position-on-canvas.js";
 
-const strokes = [];
+const canvas = document.querySelector("canvas");
+const undoButton = document.querySelector(".js-undo");
+const redoButton = document.querySelector(".js-redo");
+
+let actionIndex = -1;
+
+const actions = [];
 let pointsInCurrentStroke = [];
 
-const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d");
 context.lineCap = "round";
 
@@ -22,12 +27,24 @@ canvas.addEventListener("pointerdown", (e) => {
   isDrawing = true;
   pointsInCurrentStroke.push(mousePositionOnCanvas(canvas, e));
 
-  strokes.push({
+  // Remove any "redo" actions
+  while (actionIndex < actions.length - 1) {
+    actions.pop();
+  }
+
+  actions.push({
+    type: "stroke",
     color,
     size,
     points: pointsInCurrentStroke,
   });
-  drawCanvas({ canvas, context, strokes });
+
+  actionIndex = actions.length - 1;
+
+  console.log({ actionIndex, actions });
+
+  updateRedoButton();
+  drawCanvas({ canvas, context, actions });
 });
 
 canvas.addEventListener("pointermove", (e) => {
@@ -39,12 +56,13 @@ canvas.addEventListener("pointermove", (e) => {
     animationFrame = requestAnimationFrame(() => {
       pointsInCurrentStroke.push(mousePositionOnCanvas(canvas, e));
 
-      strokes[strokes.length - 1] = {
+      actions[actions.length - 1] = {
+        type: "stroke",
         color,
         size,
         points: pointsInCurrentStroke,
       };
-      drawCanvas({ canvas, context, strokes });
+      drawCanvas({ canvas, context, actions, actionIndex });
     });
   }
 });
@@ -54,10 +72,35 @@ document.addEventListener("pointerup", () => {
   pointsInCurrentStroke = [];
 });
 
-document.querySelector(".js-undo").addEventListener("click", () => {
-  strokes.pop();
-  drawCanvas({ canvas, context, strokes });
+undoButton.addEventListener("click", () => {
+  actionIndex--;
+
+  if (actionIndex < -1) {
+    actionIndex = -1;
+  }
+  drawCanvas({ canvas, context, actions, actionIndex });
+  updateRedoButton();
+  console.log({ actionIndex, actions });
 });
+
+redoButton.addEventListener("click", () => {
+  actionIndex++;
+
+  if (actionIndex > actions.length - 1) {
+    actions.length - 1;
+  }
+  drawCanvas({ canvas, context, actions, actionIndex });
+  updateRedoButton();
+  console.log({ actionIndex, actions });
+});
+
+function updateRedoButton() {
+  if (actionIndex < actions.length - 1) {
+    redoButton.removeAttribute("disabled");
+  } else {
+    redoButton.setAttribute("disabled", true);
+  }
+}
 
 [...document.querySelectorAll(".color-checkbox input")].forEach((checkbox) => {
   checkbox.addEventListener("click", () => {

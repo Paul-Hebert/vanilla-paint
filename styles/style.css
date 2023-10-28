@@ -1,6 +1,8 @@
 html {
   background: #eee;
   font-family: sans-serif;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 html,
