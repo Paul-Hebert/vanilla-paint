@@ -26,4 +26,14 @@ export function drawStroke({ size, color, points, context }) {
 
   context.curve(pointsForCurve);
   context.stroke();
+
+  // Useful for debugging
+  // points.forEach((point) => {
+  //   drawCircle({
+  //     color: "red",
+  //     context,
+  //     radius: size / 2,
+  //     ...point,
+  //   });
+  // });
 }
