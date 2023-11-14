@@ -16,6 +16,7 @@ context.lineCap = "round";
 
 let color = "#333";
 let size = "20";
+let rotations = 6;
 
 let animationFrame;
 
@@ -42,7 +43,7 @@ canvas.addEventListener("pointerdown", (e) => {
   actionIndex = actions.length - 1;
 
   updateRedoButton();
-  drawCanvas({ canvas, context, actions, actionIndex });
+  drawCanvas({ canvas, context, actions, actionIndex, rotations });
 });
 
 canvas.addEventListener("pointermove", (e) => {
@@ -60,12 +61,16 @@ canvas.addEventListener("pointermove", (e) => {
         size,
         points: pointsInCurrentStroke,
       };
-      drawCanvas({ canvas, context, actions, actionIndex });
+      drawCanvas({ canvas, context, actions, actionIndex, rotations });
     });
   }
 });
 
 document.addEventListener("pointerup", () => {
+  if (animationFrame) {
+    cancelAnimationFrame(animationFrame);
+  }
+
   isDrawing = false;
   pointsInCurrentStroke = [];
 });
@@ -76,7 +81,7 @@ undoButton.addEventListener("click", () => {
   if (actionIndex < -1) {
     actionIndex = -1;
   }
-  drawCanvas({ canvas, context, actions, actionIndex });
+  drawCanvas({ canvas, context, actions, actionIndex, rotations });
   updateRedoButton();
 });
 
@@ -86,7 +91,7 @@ redoButton.addEventListener("click", () => {
   if (actionIndex > actions.length - 1) {
     actions.length - 1;
   }
-  drawCanvas({ canvas, context, actions, actionIndex });
+  drawCanvas({ canvas, context, actions, actionIndex, rotations });
   updateRedoButton();
 });
 
@@ -110,4 +115,9 @@ function updateRedoButton() {
 
 document.querySelector(".size-range").addEventListener("input", (e) => {
   size = e.target.value;
+});
+
+document.querySelector(".rotations-range").addEventListener("input", (e) => {
+  rotations = e.target.value;
+  drawCanvas({ canvas, context, actions, actionIndex, rotations });
 });
