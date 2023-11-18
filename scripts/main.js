@@ -1,14 +1,18 @@
-import { drawCanvas } from "./draw-canvas.js";
-import { initCanvas } from "./init-canvas.js";
+import { drawCanvas } from "./canvas/draw-canvas.js";
+import { initCanvas } from "./canvas/init-canvas.js";
 import { mousePositionOnCanvas } from "./mouse-position-on-canvas.js";
+import { downloadSvg } from "./svg/download-svg.js";
+import { drawSvg } from "./svg/draw-svg.js";
 
 const canvas = document.querySelector("canvas");
 const undoButton = document.querySelector(".js-undo");
 const redoButton = document.querySelector(".js-redo");
+const resetButton = document.querySelector(".js-reset");
+const downloadButton = document.querySelector(".js-download");
 
 let actionIndex = -1;
 
-const actions = [];
+let actions = [];
 let pointsInCurrentStroke = [];
 
 const context = canvas.getContext("2d");
@@ -85,6 +89,15 @@ undoButton.addEventListener("click", () => {
   updateRedoButton();
 });
 
+resetButton.addEventListener("click", () => {
+  actionIndex = -1;
+  actions = [];
+  pointsInCurrentStroke = [];
+
+  drawCanvas({ canvas, context, actions, actionIndex, rotations });
+  updateRedoButton();
+});
+
 redoButton.addEventListener("click", () => {
   actionIndex++;
 
@@ -120,4 +133,9 @@ document.querySelector(".size-range").addEventListener("input", (e) => {
 document.querySelector(".rotations-range").addEventListener("input", (e) => {
   rotations = e.target.value;
   drawCanvas({ canvas, context, actions, actionIndex, rotations });
+});
+
+document.querySelector(".js-download").addEventListener("click", () => {
+  // console.log(drawSvg({ canvas, context, actions, actionIndex, rotations }));
+  downloadSvg(drawSvg({ canvas, context, actions, actionIndex, rotations }));
 });

@@ -12,6 +12,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
+    "@georgedoescode/spline": "^1.0.1",
     "cardinal-spline-js": "^2.3.10"
   }
 }

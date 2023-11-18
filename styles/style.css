@@ -27,6 +27,7 @@ canvas {
 }
 
 .controls {
+  background-color: hsla(0, 0%, 100%, 80%);
   align-items: center;
   position: fixed;
   bottom: 0;

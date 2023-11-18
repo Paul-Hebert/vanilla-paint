@@ -1,5 +1,5 @@
 import { drawStroke } from "./draw-stroke.js";
-import { kaleidoscope } from "./kaleidoscope.js";
+import { kaleidoscope } from "../kaleidoscope.js";
 
 export function drawCanvas({
   canvas,
